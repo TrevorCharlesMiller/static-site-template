@@ -43,13 +43,15 @@ This will create a `dist` directory containing html, images, minified css and ja
 
 ## Create Infrastructure
 
+Register your domain through AWS Route 53. Once your domain is registered a new Hosted Zone will be created with two default records. There is no need to alter these.
+
 [Terraform](https://www.terraform.io) is used to create the necessary infrastructure on AWS to deploy the site.
 
-The resources created are 2 AWS S3 buckets, a Route 53 hosted zone and two DNS records. You will need an S3 bucket for 'yourdomain.com' as well as 'www.yourdomain.com' and a DNS record for each.
+The resources created are 2 AWS S3 buckets, and two DNS records on the Hosted Zone for your domain name. Terraform will create an S3 bucket for `yourdomain.com` as well as `www.yourdomain.com` to redirect to `yourdomain.com` and a DNS record for each.
 
 ### Steps to Run
 
-You will need to update your domain name in the terraform variables file: `terraform.tfvars`.
+You will need to update your domain name and hosted zone id in the terraform variables file: `terraform.tfvars`.
 
 Change into the `terraform` directory and initialize Terraform
 ```

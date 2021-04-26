@@ -1,10 +1,6 @@
-resource "aws_route53_zone" "main" {
-  name = "${var.domain_name}"
-  comment = "Managed by Terraform"
-}
 
 resource "aws_route53_record" "main-a-record" {
-   zone_id = "${aws_route53_zone.main.zone_id}"
+   zone_id = "${var.zone_id}"
    name = "${var.domain_name}"
    type = "A"
    alias {
@@ -15,7 +11,7 @@ resource "aws_route53_record" "main-a-record" {
 }
 
 resource "aws_route53_record" "main-c-name" {
-  zone_id = "${aws_route53_zone.main.zone_id}"
+  zone_id = "${var.zone_id}"
   name = "www.${var.domain_name}"
   type = "CNAME"
   ttl = "300"
