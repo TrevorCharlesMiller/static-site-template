@@ -1,1 +1,1 @@
-domain_name="astilon.com"
+domain_name="yourdomain.com"
