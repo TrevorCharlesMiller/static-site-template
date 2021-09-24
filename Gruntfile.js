@@ -40,13 +40,14 @@ module.exports = function (grunt) {
             }
         },
 
-        uglify: {
-            build: {
-                files: {
-                    'dist/app.min.js': ['build/app.js']
-                }
+        terser: {
+            options: {},
+            main: {
+              files: {
+                './dist/app.min.js': ['./build/app.js'],
+              }
             }
-        },
+          },
 
         htmlbuild: {
           dist: {
@@ -102,15 +103,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-html-build');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-terser');
 
     grunt.registerTask('html', ['clean', 'copy', 'htmlbuild', 'htmlmin']);
     grunt.registerTask('css', ['sass', 'cssmin']);
-    grunt.registerTask('js', ['concat', 'uglify']);
+    grunt.registerTask('js', ['concat', 'terser']);
     grunt.registerTask('default', ['html', 'css', 'js']);
 };
