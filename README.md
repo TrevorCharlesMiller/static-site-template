@@ -82,3 +82,46 @@ You can use the AWS command line interface to sync the website to your AWS S3 bu
 cd dist
 aws s3 sync . s3://yourdomain.com
 ```
+
+A simple GitHub action can be setup to build and deploy the site, an example is as follows:
+
+```
+name: Build and Deploy Website to DEV
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}     
+
+    - name: Build
+      run: |
+        npm install -g sass
+        npm install terser
+        npm install
+        grunt
+    
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Deploy static site to S3 bucket
+      run:  aws s3 sync ./dist/ s3://your_s3_bucket_name_here
+```
