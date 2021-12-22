@@ -95,10 +95,10 @@ aws s3 sync . s3://yourdomain.com
 ```
 
 ### GitHub Action
-A simple GitHub action can be setup to build and deploy the site, you will need to set your AWS user's access key and secret key as repository secrets.
+A simple GitHub action can be setup to build and deploy the site, you will need to set your AWS user's access key and secret key as repository secrets. Be sure to configure your S3 bucket name.
 
 ```
-name: Build and Deploy Website to DEV
+name: Build and Deploy Website to AWS
 
 on:
   push:
