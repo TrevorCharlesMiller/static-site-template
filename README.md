@@ -25,6 +25,12 @@ Templating is used for the header, navigation and footer, thus eliminating code 
 
 CSS and Javascript are concatenated and then minified.
 
+## Architecture
+
+One possible way to deploy the website is on Amazon Web Services (AWS) using an S3 bucket to host the site and Route53 for the Domain Name Service entries. This simple architecture is depicted in the diagram below.
+
+![Architecture](architecture.png)
+
 ## Build
 
 You will need Node JS v12 or later.
@@ -41,7 +47,7 @@ grunt
 
 This will create a `dist` directory containing html, images, minified css and javascript as well as the `robots.txt` file and the `sitemap.xml` file.
 
-## Create Infrastructure
+## Create Infrastructure on AWS
 
 Register your domain through AWS Route 53. Once your domain is registered a new Hosted Zone will be created with two default records. There is no need to alter these.
 
@@ -78,15 +84,21 @@ Note that DNS propagation can take a while so your website might not be reachabl
 
 ## Deploy Site
 You can use the AWS command line interface to sync the website to your AWS S3 bucket once you have built the website.
+
+You will need to install the AWS CLI and configure it using your user's access key and secret key. If you don't have these you can create a new user in AWS using the IAM service, ensure to enable programmatic access for the new user.
+
+Once your AWS CLI is setup and configured you can use it to deploy your website to the S3 bucket created by Terraform.
+
 ```
 cd dist
 aws s3 sync . s3://yourdomain.com
 ```
 
-A simple GitHub action can be setup to build and deploy the site, an example is as follows:
+### GitHub Action
+A simple GitHub action can be setup to build and deploy the site, you will need to set your AWS user's access key and secret key as repository secrets. Be sure to configure your S3 bucket name.
 
 ```
-name: Build and Deploy Website to DEV
+name: Build and Deploy Website to AWS
 
 on:
   push:
